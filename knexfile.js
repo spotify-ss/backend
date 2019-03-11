@@ -4,7 +4,12 @@ module.exports = {
 
   development: {
     client: 'sqlite3',
-    useNullAsDefault: true, // required for sqlite3
+    useNullAsDefault: true,
+    pool: {
+      afterCreate: (conn, done) => {
+        conn.run('PRAGMA foreign_keys = ON', done);
+      },
+    }, // required for sqlite3
     connection: {
       filename: './data/queue.db3'
     },
