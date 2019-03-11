@@ -1,15 +1,8 @@
-const express = require('express')
+require('dotenv').config(); // load .env variables
 
-const server = express();
-const port = process.env.PORT || 9001;
+const server = require('./api/server.js');
 
-server.get('/', (req, res) => {
-    res.status(200).json({api: `Alive at port ${port}`})
-})
-
-
-
-server.get('*', (req, res) => {
-    res.status(404).json({message: "route not found"})
-})
+const port = process.env.PORT || 4000;
 server.listen(port, () => console.log(`\nServer live on: ${port}\n`));
+
+
