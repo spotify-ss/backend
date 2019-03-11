@@ -9,7 +9,7 @@ const router = express.Router();
 router.post('/register', async (req, res) => {
     if(!req.body.username || !req.body.password){
         res.status(400).json({ error: 'Please input a Username and a Password' });
-    } else if(!req.body.password.length < 8){
+    } else if(req.body.password.length < 8){
         res.status(400).json({ error: 'The Password must be at least 8 characters long'});
     } else {
         try {
@@ -33,3 +33,5 @@ router.post('/register', async (req, res) => {
         }
     }
 });
+
+module.exports = router;
