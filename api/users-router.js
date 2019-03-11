@@ -22,7 +22,7 @@ router.post('/register', async (req, res) => {
             const user = await Users.addUser(newUser);
             const token = tokenService.generateToken(user);
 
-            res.status(201).json({ user, token });
+            res.status(201).json({ username: user.username, token });
 
         } catch(error) {
             if(error.errno === 19){
