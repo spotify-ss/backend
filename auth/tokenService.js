@@ -1,6 +1,6 @@
 const webToken = require('jsonwebtoken');
 
-const secret = process.env.JWT_SECRET || "you'll never guess this";
+const secret = process.env.JWT_SECRET;
 
 module.exports = {
     generateToken
