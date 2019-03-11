@@ -13,6 +13,7 @@
 
 # misc
 *.sqlite3
+*.db3
 .DS_Store
 .env
 .env.local
