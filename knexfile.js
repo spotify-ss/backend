@@ -11,7 +11,8 @@ module.exports = {
       },
     }, // required for sqlite3
     connection: {
-      filename: './data/queue.db3'
+      filename: './data/queue.db3',
+      charset: 'utf8'
     },
     migrations: {
       directory: './data/migrations',
@@ -23,7 +24,8 @@ module.exports = {
     connection: {
       database: 'my_db',
       user:     'username',
-      password: 'password'
+      password: 'password',
+      charset: 'utf8'
     },
     pool: {
       min: 2,
