@@ -22,7 +22,7 @@ router.post('/register', async (req, res) => {
             const user = await Users.addUser(newUser);
             const token = tokenService.generateToken(user);
 
-            res.status(201).json({ username: user.username, token });
+            res.status(201).json({ userID: user.id, username: user.username, token });
 
         } catch(error) {
             if(error.errno === 19){
@@ -42,7 +42,7 @@ router.post('/login', async (req, res) => {
 
         if(user && bcrypt.compareSync(password, user.password)){
             const token = tokenService.generateToken(user);
-            res.status(200).json({ token });
+            res.status(200).json({ userID: user.id, token });
         } else {
             res.status(401).json({ error: 'Invalid Username or Password' });
         }
