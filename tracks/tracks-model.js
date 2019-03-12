@@ -1,9 +1,11 @@
 const db = require('../data/dbConfig.js');
+const axios = require('axios');
 
 module.exports = {
     getTracks,
     getTrackByName,
-    getTracksByArtistId
+    getTracksByArtistId,
+    getMeanValue
 };
 
 function getTracks(query){
@@ -27,4 +29,17 @@ function getTrackByName(track_name){
 function getTracksByArtistId(artist_id){
     return db('tracks')
         .where({ artist_id });
+}
+
+async function getMeanValue(){
+    const tracks = await db('tracks');
+
+    axios
+        .post('https://spotify-ss-data-science.herokuapp.com/api/v1.0/aggregate', tracks)
+        .then(res => {
+            return console.log(res);
+        })
+        .catch(err => {
+            return {...err};
+        })
 }

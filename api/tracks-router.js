@@ -33,4 +33,14 @@ router.get('/artist/:id', async (req, res) => {
     }
 });
 
+router.get('/mean_value', async (req, res) => {
+    try {
+        const meanvalue = await Tracks.getMeanValue();
+
+        res.status(200).json(meanvalue);
+    } catch (error) {
+        res.status(500).json({ error: 'unable to get mean values' });
+    }
+});
+
 module.exports = router;
