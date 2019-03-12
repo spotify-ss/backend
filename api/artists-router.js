@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
     try {
-        const artists = await Artists.getArtists();
+        const artists = await Artists.getArtists(req.query);
 
         res.status(200).json(artists);
     } catch (error) {  
