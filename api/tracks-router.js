@@ -37,7 +37,11 @@ router.get('/mean_value', async (req, res) => {
     try {
         const meanvalue = await Tracks.getMeanValue();
 
-        res.status(200).json(meanvalue);
+        if(meanvalue){
+            res.status(200).json(meanvalue);
+        } else {
+            res.status(400).json({ error: 'didnt get it' })
+        }
     } catch (error) {
         res.status(500).json({ error: 'unable to get mean values' });
     }
