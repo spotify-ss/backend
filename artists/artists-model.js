@@ -1,10 +1,14 @@
 const db = require('../data/dbConfig.js');
 
 module.exports = {
+    getArtists,
     getArtistByName,
     getTracksForArtist
 };
 
+function getArtists(){
+    return db('artists');
+}
 function getArtistByName(name) {
     return db('artists')
         .where({ name })
