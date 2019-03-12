@@ -40,7 +40,11 @@ async function getMeanValue(){
     const json = await response.data;
 
     let meanvalue = { mean_values: json };
-    
+
     return meanvalue;
+}
+
+async function getClosestTrack() {
+    
 }
 
