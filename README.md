@@ -96,7 +96,6 @@ returns:
         },
     ]
 }
-```
 
 ### /api/track
 
