@@ -29,7 +29,16 @@ exports.seed = function(knex, Promise) {
       }
 
       let filtered = filter(artists);
-      return knex('artists').insert(filtered);
+      
+      let chunk = 500;
+      
+      for(let i = 0, j = filtered.length; i < j; i += chunk){
+        // let tempArray = filtered.slice(i, i+chunk);
+
+        return knex.batchInsert('artists', filtered, chunk);
+      }
+
+      
 };
 
 
