@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.post('/', async (req, res) => {
     try {
-        const track = await Tracks.getTrackByName(req.body.track_name);
+        const track = await Tracks.getTrackByName(req.query.track_name);
 
         if(track){
             res.status(200).json(track);
