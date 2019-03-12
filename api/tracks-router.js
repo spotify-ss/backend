@@ -29,7 +29,7 @@ router.get('/artist/:id', async (req, res) => {
             res.status(400).json({ error: "That Artist isn't in the database or we don't have any Tracks" })
         }
     } catch (error) {
-
+        res.status(500).json({ error: 'Something bad happened! Unable to find the Artists Tracks' });
     }
 });
 
