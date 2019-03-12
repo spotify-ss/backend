@@ -5,7 +5,7 @@ const Tracks = require('../tracks/tracks-model.js');
 const router = express.Router();
 
 
-router.post('/', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const track = await Tracks.getTrackByName(req.query.track_name);
 

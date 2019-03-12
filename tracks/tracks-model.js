@@ -45,6 +45,6 @@ async function getMeanValue(){
 }
 
 async function getClosestTrack() {
-    
+
 }
 
