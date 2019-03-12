@@ -9,7 +9,7 @@ exports.up = function(knex, Promise) {
         track.increments();
 
         track.string('track_name', 255).notNullable();
-
+        track.string('track_id', 255).notNullable();
         track.decimal('acousticness', null).notNullable();
         track.decimal('danceability', null).notNullable();
         track.integer('duration_ms').notNullable();
@@ -24,6 +24,7 @@ exports.up = function(knex, Promise) {
         track.integer('time_signature').notNullable();
         track.decimal('valence', null).notNullable();
         track.integer('popularity').notNullable();
+        track.string('artist_name', 255);
 
         track
             .integer('artist_id')

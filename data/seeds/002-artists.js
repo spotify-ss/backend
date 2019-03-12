@@ -24,7 +24,7 @@ exports.seed = function(knex, Promise) {
       // Inserts seed entries
       let artists = [];
 
-      for(let i = 0; i < songData.length; i++){
+      for(let i = 0; i < 8000; i++){
           artists.push(createArtist(songData[i]));
       }
 
@@ -32,7 +32,7 @@ exports.seed = function(knex, Promise) {
       
       let chunk = 500;
       
-      for(let i = 0, j = filtered.length; i < j; i += chunk){
+      for(let i = 0; i < 8000; i += chunk){
         // let tempArray = filtered.slice(i, i+chunk);
 
         return knex.batchInsert('artists', filtered, chunk);
