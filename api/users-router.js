@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const Helpers = require('../helpers/helpers.js');
 const Users = require('../users/users-model.js');
 const tokenService = require('../auth/tokenService.js');
+const { authenticate } = require('../auth/authenticate');
 
 const router = express.Router();
 
@@ -52,20 +53,46 @@ router.post('/login', async (req, res) => {
     }
 });
 
-router.post('/add/postive_track', async (req, res) => {
+router.get('/postive_tracks', authenticate, async (req, res) => {
+    try {
+        const posTracks = await Users.getUserPosTracks(req.decoded.subject);
+
+        res.status(200).json(posTracks);
+
+    } catch(error) {
+        res.status(500).json({ error: 'Something bad happened! Unable to get the list of Positive tracks' });
+    }
+});
+
+router.post('/add/postive_track', authenticate, async (req, res) => {
     let { user_id, track_id } = req.body;
 
     try {
         const posTrack = await Users.addPostiveTrack(user_id, track_id);
 
-        res.status(201).json({ message: 'Postive Track added!', posTrack });
+        res.status(201).json({ message: 'Postive Track added!', posTrack});
     } catch(error) {
         console.log(error)
         res.status(500).json({ error: 'Something bad happened! Unable to add the postive track' });
     }
 });
 
-router.post('/add/negative_track', async (req, res) => {
+router.delete('/delete/postive_track', authenticate, async (req, res) => {
+
+});
+
+router.get('/negative_tracks', authenticate, async (req, res) => {
+    try {
+        const negTracks = await Users.getUserNegTracks(req.decoded.subject);
+
+        res.status(200).json(negTracks);
+
+    } catch(error) {
+        res.status(500).json({ error: 'Something bad happened! Unable to get the list of Negative tracks' });
+    }
+});
+
+router.post('/add/negative_track', authenticate, async (req, res) => {
     let { user_id, track_id } = req.body;
 
     try {
@@ -78,7 +105,11 @@ router.post('/add/negative_track', async (req, res) => {
     }
 });
 
-router.get('/user_predicted_tracks', async (req, res) => {
+router.delete('/delete/negative_track', async (req, res) => {
+
+});
+
+router.get('/user_predicted_tracks', authenticate, async (req, res) => {
     try {
         let page_number = req.query.page_number || 0;
 

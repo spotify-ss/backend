@@ -29,4 +29,5 @@ router.get('/artist/:name', async (req, res) => {
         res.status(500).json({ error: 'Something bad happened! Unable to get the Artists' });
     }
 });
+
 module.exports = router;

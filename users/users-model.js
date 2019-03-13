@@ -7,7 +7,9 @@ module.exports = {
     addPostiveTrack,
     addNegativeTrack,
     getUserPredictedTracks,
-    getUserFitValues
+    getUserFitValues,
+    getUserPosTracks,
+    getUserNegTracks
 };
 
 async function addUser(user){
@@ -58,7 +60,8 @@ function getUserPosTracks(id){
             'time_signature',
             'valence',
             'popularity',
-            'track_name');
+            'track_name',
+            'tracks.track_id');
 
 }
 
@@ -82,7 +85,8 @@ function getUserNegTracks(id){
             'time_signature',
             'valence',
             'popularity',
-            'track_name')
+            'track_name',
+            'tracks.track_id')
 
 }
 
