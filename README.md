@@ -62,7 +62,7 @@ expects body:
 }
 ```
 
-returns : the index of the postive song in the database 
+returns : the index of the postive track in the database 
 
 ### /api/users/add/negative_track
 
@@ -76,33 +76,64 @@ expects body:
 }
 ```
 
-returns : the index of the negative song in the database 
+returns : the index of the negative track in the database 
 
-### /api/users/user_fit_data
+### /api/users/user_predicted_tracks
 
 - **GET**
 
 expects a query string
 
-example: /api/users/user_fit_data?user_id=1
+example: /api/users/user_predicted_tracks?user_id=1&page_number=5
 
-returns : The user fit values as an object
+returns : Tracks based on the users liked/disliked track data
 ```javascript
-{
-    "acousticness": 
-        [coefficient index integer value],
-        [coefficient float value],
-    "danceability": [
-        1,
-        0.166134945833774
-    ],
-    "duration_ms": [
-        2,
-        -0.1722508208496045
-    ],
-    ...
-}
+"tracks": [
+        {
+            "id": 4,
+            "track_name": "Lactose",
+            "track_id": "3J2Jpw61sO7l6Hc7qdYV91",
+            "acousticness": 0.0294,
+            "danceability": 0.8,
+            "duration_ms": 125381,
+            "energy": 0.579,
+            "instrumentalness": 0.912,
+            "key": 5,
+            "liveness": 0.0994,
+            "loudness": -12.118,
+            "mode": 0,
+            "speechiness": 0.0701,
+            "tempo": 123.00299999999999,
+            "time_signature": 4,
+            "valence": 0.6409999999999999,
+            "popularity": 9,
+            "artist_name": "Chris Cooq",
+            "artist_id": 3
+        },
+        {
+            "id": 19,
+            "track_name": "Prop - Original mix",
+            "track_id": "5RCPsfzmEpTXMCTNk7wEfQ",
+            "acousticness": 0.000256,
+            "danceability": 0.813,
+            "duration_ms": 134769,
+            "energy": 0.598,
+            "instrumentalness": 0.8909999999999999,
+            "key": 8,
+            "liveness": 0.0892,
+            "loudness": -11.058,
+            "mode": 1,
+            "speechiness": 0.0874,
+            "tempo": 122.01,
+            "time_signature": 4,
+            "valence": 0.623,
+            "popularity": 7,
+            "artist_name": "Bingo Play",
+            "artist_id": 5
+        },
+        ...
 ```
+100 tracks per page
 
 ## Artists End-points
 
@@ -157,6 +188,7 @@ returns:
     ]
 }
 ```
+
 ## Track End-points
 
 ### /api/track
@@ -240,7 +272,11 @@ expects params: track_name
 
 exmaple : /api/track/get_closest_tracks/Lactose (case senstive for now)
 
-returns a list of the closest : 
+can access next page of tracks with query string
+
+example : /api/track/get_closest_tracks?page_number=5
+
+returns a list of the closest tracks: 
 ```javascript
 {
     "tracks":[
@@ -269,3 +305,63 @@ returns a list of the closest :
     ]
 }
 ```
+
+### /api/track/change_feature_values
+
+- **POST**
+
+can access next page of tracks with query string
+
+example : /api/track/change_feature_values?page_number=5
+
+expects body: 
+```javascript
+    {
+        "acousticness": 0.0294,
+        "danceability": 0.8,
+        "duration_ms": 125381,
+        "energy": 0.579,
+        "instrumentalness": 0.912,
+        "key": 5,
+        "liveness": 0.0994,
+        "loudness": -12.118,
+        "mode": 0,
+        "speechiness": 0.0701,
+        "tempo": 123.00299999999999,
+        "time_signature": 4,
+        "valence": 0.6409999999999999,
+        "popularity": 9
+    }
+```
+
+returns a list of tracks based off the target values:
+
+```javascript
+{
+    "tracks": [
+        {
+            "id": 4,
+            "track_name": "Lactose",
+            "track_id": "3J2Jpw61sO7l6Hc7qdYV91",
+            "acousticness": 0.0294,
+            "danceability": 0.8,
+            "duration_ms": 125381,
+            "energy": 0.579,
+            "instrumentalness": 0.912,
+            "key": 5,
+            "liveness": 0.0994,
+            "loudness": -12.118,
+            "mode": 0,
+            "speechiness": 0.0701,
+            "tempo": 123.00299999999999,
+            "time_signature": 4,
+            "valence": 0.6409999999999999,
+            "popularity": 9,
+            "artist_name": "Chris Cooq",
+            "artist_id": 3
+        },
+        ...
+    ]
+}
+```
+100 tracks per page

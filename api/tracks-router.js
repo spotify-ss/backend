@@ -33,20 +33,6 @@ router.get('/artist/:id', async (req, res) => {
     }
 });
 
-router.get('/mean_value', async (req, res) => {
-    try {
-        const meanvalue = await Tracks.getMeanValue();
-
-        if(meanvalue){
-            res.status(200).json(meanvalue);
-        } else {
-            res.status(400).json({ error: 'didnt get it' })
-        }
-    } catch (error) {
-        res.status(500).json({ error: 'unable to get mean values' });
-    }
-});
-
 router.get('/get_closest_tracks/:track_name', async (req, res) => {
     try {
         let page_number = req.query.page_number || 0;
@@ -64,5 +50,24 @@ router.get('/get_closest_tracks/:track_name', async (req, res) => {
         res.status(500).json({ error: 'Unable to get the closets tracks to the current track' });
     }
 });
+
+router.post('/change_feature_values', async (req, res) => {
+    try {
+        let page_number = req.query.page_number || 0;
+
+        const target = req.body;
+
+        const values = await Tracks.getClosestValues(target, page_number);
+
+        const findTracks = await Tracks.mapTracks(values);
+        
+        const result = { tracks: findTracks};
+
+        res.status(200).json(result)
+    } catch (error){
+        console.log(error);
+        res.status(500).json({error: 'Unable to change the target values'})
+    }
+})
 
 module.exports = router;
