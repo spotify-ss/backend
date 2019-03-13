@@ -1,6 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 
+const Helpers = require('../helpers/helpers.js');
 const Users = require('../users/users-model.js');
 const tokenService = require('../auth/tokenService.js');
 
@@ -83,7 +84,7 @@ router.get('/user_predicted_tracks', async (req, res) => {
 
         const data = await Users.getUserPredictedTracks(req.query.user_id, page_number);
 
-        const findTracks = await Users.mapTracks(data);
+        const findTracks = await Helpers.mapTracks(data);
         
         const result = { tracks: findTracks};
 

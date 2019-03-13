@@ -1,5 +1,6 @@
 const express = require('express');
 
+const Helpers = require('../helpers/helpers.js');
 const Tracks = require('../tracks/tracks-model.js');
 
 const router = express.Router();
@@ -41,7 +42,7 @@ router.get('/get_closest_tracks/:track_name', async (req, res) => {
         
         const closestTracks = await Tracks.getClosestTracks(track_id, page_number);
 
-        const findTracks = await Tracks.mapTracks(closestTracks);
+        const findTracks = await Helpers.mapTracks(closestTracks);
         
         const result = { tracks: findTracks};
         
@@ -59,7 +60,7 @@ router.post('/change_feature_values', async (req, res) => {
 
         const values = await Tracks.getClosestValues(target, page_number);
 
-        const findTracks = await Tracks.mapTracks(values);
+        const findTracks = await Helpers.mapTracks(values);
         
         const result = { tracks: findTracks};
 
