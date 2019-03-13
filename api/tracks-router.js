@@ -47,4 +47,29 @@ router.get('/mean_value', async (req, res) => {
     }
 });
 
+router.get('/get_closest_tracks/:track_name', async (req, res) => {
+    try {
+        let track;
+        let tracks = await Tracks.getTracks();
+        let page_number;
+
+        for(let i = 0; i < 5999; i ++){
+            if(tracks[i].track_name === req.params.track_name){
+                track = tracks[i]
+                page_number = Math.ceil( i / 100 );
+            }
+        }
+        
+        const closestTracks = await Tracks.getClosestTracks(track.track_id, page_number, tracks);
+        
+        const findTracks = await Tracks.mapTracks(closestTracks);
+
+        const result = { tracks: findTracks};
+
+        res.status(200).json(result);
+    } catch(error) {
+        res.status(500).json({ error: 'Unable to get the closets tracks to the current track' });
+    }
+});
+
 module.exports = router;
