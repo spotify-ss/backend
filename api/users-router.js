@@ -79,7 +79,7 @@ router.post('/add/negative_track', async (req, res) => {
 
 router.get('/postive_track', async( req, res) => {
     try {
-        const tracks = await Users.getUserPosSongs(req.query.user_id);
+        const tracks = await Users.getUserPosTracks(req.query.user_id);
 
         res.status(200).json(tracks);
     } catch(error){
@@ -87,5 +87,16 @@ router.get('/postive_track', async( req, res) => {
         res.status(500).json(error);
     }
 });
+
+router.get('/user_fit_data', async (req, res) => {
+    try {
+        const data = await Users.getUserFitValues(req.query.user_id);
+
+        res.status(200).json(data);
+    } catch(error) {
+        console.log(error);
+        res.status(500).json(error);
+    }
+})
 
 module.exports = router;
