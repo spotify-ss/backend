@@ -4,12 +4,14 @@ const db = require('../data/dbConfig.js');
 module.exports = {
     addUser,
     getUserBy,
-    addPostiveTrack,
+    addPositiveTrack,
     addNegativeTrack,
     getUserPredictedTracks,
     getUserFitValues,
     getUserPosTracks,
-    getUserNegTracks
+    getUserNegTracks,
+    delPositiveTrack,
+    delNegativeTrack
 };
 
 async function addUser(user){
@@ -30,7 +32,7 @@ function getUserBy(username) {
         .first();
 }
 
-function addPostiveTrack(user_id, track_id) {
+function addPositiveTrack(user_id, track_id) {
     return db('postiveTracks')
         .insert({ user_id, track_id });
 }
@@ -61,7 +63,8 @@ function getUserPosTracks(id){
             'valence',
             'popularity',
             'track_name',
-            'tracks.track_id');
+            'tracks.track_id',
+            'tracks.id');
 
 }
 
@@ -86,8 +89,21 @@ function getUserNegTracks(id){
             'valence',
             'popularity',
             'track_name',
-            'tracks.track_id')
+            'tracks.track_id',
+            'tracks.id');
 
+}
+
+function delPositiveTrack(track_id) {
+    return db('postiveTracks')
+        .where({ track_id })
+        .del();
+}
+
+function delNegativeTrack(track_id) {
+    return db('negativeTracks')
+        .where({ track_id })
+        .del();
 }
 
 async function getUserFitValues(user_id){

@@ -48,7 +48,7 @@ router.get('/get_closest_tracks/:track_name', async (req, res) => {
         
         res.status(200).json(result);
     } catch(error) {
-        res.status(500).json({ error: 'Unable to get the closets tracks to the current track' });
+        res.status(500).json({ error: 'Unable to get the closest tracks to the current track' });
     }
 });
 

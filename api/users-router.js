@@ -53,7 +53,7 @@ router.post('/login', async (req, res) => {
     }
 });
 
-router.get('/postive_tracks', authenticate, async (req, res) => {
+router.get('/positive_tracks', authenticate, async (req, res) => {
     try {
         const posTracks = await Users.getUserPosTracks(req.decoded.subject);
 
@@ -64,21 +64,32 @@ router.get('/postive_tracks', authenticate, async (req, res) => {
     }
 });
 
-router.post('/add/postive_track', authenticate, async (req, res) => {
+router.post('/add/positive_track', authenticate, async (req, res) => {
     let { user_id, track_id } = req.body;
 
     try {
-        const posTrack = await Users.addPostiveTrack(user_id, track_id);
+        const posTrack = await Users.addPositiveTrack(user_id, track_id);
 
-        res.status(201).json({ message: 'Postive Track added!', posTrack});
+        res.status(201).json({ message: 'Positive Track added!', posTrack});
     } catch(error) {
         console.log(error)
-        res.status(500).json({ error: 'Something bad happened! Unable to add the postive track' });
+        res.status(500).json({ error: 'Something bad happened! Unable to add the positive track' });
     }
 });
 
-router.delete('/delete/postive_track', authenticate, async (req, res) => {
+router.delete('/delete/positive_track', authenticate, async (req, res) => {
+    try {
+        const delTrack = await Users.delPositiveTrack(req.body.track_id);
 
+        if(delTrack) {
+            res.status(200).json({ delTrack, message: 'Positive Track deleted!' });
+        } else {
+            res.status(400).json({ error: 'That Track does not exists' });
+        }
+    } catch(error) {
+        console.log(error);
+        res.status(500).json({ error: 'Something bad happened! Unable to delete the positive track'})
+    }
 });
 
 router.get('/negative_tracks', authenticate, async (req, res) => {
@@ -101,12 +112,23 @@ router.post('/add/negative_track', authenticate, async (req, res) => {
         res.status(201).json({ message: 'Negative Track added!', posTrack });
     } catch(error) {
         console.log(error)
-        res.status(500).json({ error: 'Something bad happened! Unable to add the postive track' });
+        res.status(500).json({ error: 'Something bad happened! Unable to add the positive track' });
     }
 });
 
 router.delete('/delete/negative_track', async (req, res) => {
+    try {
+        const delTrack = await Users.delNegativeTrack(req.body.track_id);
 
+        if(delTrack) {
+            res.status(200).json({ delTrack, message: 'Negative Track deleted!' });
+        } else {
+            res.status(400).json({ error: 'That Track does not exists' });
+        }
+    } catch(error) {
+        console.log(error);
+        res.status(500).json({ error: 'Something bad happened! Unable to delete the positive track'})
+    }
 });
 
 router.get('/user_predicted_tracks', authenticate, async (req, res) => {
