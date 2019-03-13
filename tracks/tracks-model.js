@@ -5,7 +5,6 @@ module.exports = {
     getTracks,
     getTrackByName,
     getTracksByArtistId,
-    getMeanValue,
     getClosestTracks,
     mapTracks,
     getClosestValues
