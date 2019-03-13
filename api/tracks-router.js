@@ -47,4 +47,30 @@ router.get('/mean_value', async (req, res) => {
     }
 });
 
+router.get('/get_closets_song/:track_name', async (req, res) => {
+    try {
+        let track;
+        let tracks = await Tracks.getTracks();
+        let newTrack;
+        let page_number;
+
+        for(let i = 0; i < 5999; i ++){
+            if(tracks[i].track_name === req.params.track_name){
+                track = tracks[i]
+                console.log(i)
+                // newTrack = tracks.slice(i, i+99);
+                page_number = Math.ceil( i / 100 );
+                // newTrack = { page_number ,  track };
+            }
+        }
+        
+        const closetsTracks = await Tracks.getClosestTracks(track.track_id, page_number, tracks);
+        
+        
+        res.status(200).json(closetsTracks);
+    } catch(error) {
+        res.status(500).json({ error: 'Unable to get the closets tracks to the current track' });
+    }
+});
+
 module.exports = router;

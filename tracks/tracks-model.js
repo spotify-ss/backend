@@ -5,19 +5,21 @@ module.exports = {
     getTracks,
     getTrackByName,
     getTracksByArtistId,
-    getMeanValue
+    getMeanValue,
+    getClosestTracks
 };
 
 function getTracks(query){
-    let { page = 1, limit = 100, sortby = 'id', sortdir = 'asc' } = query;
-    const offset = limit * (page - 1);
+    // let { page = 1, limit = 100, sortby = 'id', sortdir = 'asc' } = query;
+    // const offset = limit * (page - 1);
 
-    let res = db('tracks')
-        .orderBy(sortby, sortdir)
-        .limit(limit)
-        .offset(offset);
+    // let res = db('tracks')
+    //     .orderBy(sortby, sortdir)
+    //     .limit(limit)
+    //     .offset(offset);
 
-    return res;
+    // return res;
+    return db('tracks');
 }
 
 function getTrackByName(track_name){
@@ -44,7 +46,14 @@ async function getMeanValue(){
     return meanvalue;
 }
 
-async function getClosestTrack() {
+async function getClosestTracks(track_id, page_number, tracks) {
+    const mean_values = await getMeanValue();
+    
+    const data = { key: 'B652B7B42C7BA2CFCEB4963ED3F92', songs: tracks, mean_values };
+    
+    const response = await axios.post(`https://spotify-ss-data-science.herokuapp.com/api/v1.0/closest/${track_id}/${page_number}`, data);
+    const json = await response.data;
 
+    return json;
 }
 

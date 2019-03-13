@@ -14,9 +14,9 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.get('/artist', async (req, res) => {
+router.get('/artist/:name', async (req, res) => {
     try {
-        const artist = await Artists.getArtistByName(req.body.name);
+        const artist = await Artists.getArtistByName(req.params.name);
         const tracks = await Artists.getTracksForArtist(artist.id);
 
         if(artist){
