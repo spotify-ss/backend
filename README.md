@@ -274,7 +274,7 @@ exmaple : /api/track/get_closest_tracks/Lactose (case senstive for now)
 
 can access next page of tracks with query string
 
-example : /api/track/get_closest_tracks?page_number=5
+example : /api/track/get_closest_tracks/Lactose/?page_number=5
 
 returns a list of the closest tracks: 
 ```javascript
