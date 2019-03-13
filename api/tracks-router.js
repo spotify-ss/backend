@@ -65,4 +65,23 @@ router.get('/get_closest_tracks/:track_name', async (req, res) => {
     }
 });
 
+router.post('/change_feature_values', async (req, res) => {
+    try {
+        let page_number = req.query.page_number || 0;
+
+        const target = req.body;
+
+        const values = await Tracks.getClosestValues(target, page_number);
+
+        const findTracks = await Tracks.mapTracks(values);
+        
+        const result = { tracks: findTracks};
+
+        res.status(200).json(result)
+    } catch (error){
+        console.log(error);
+        res.status(500).json({error: 'Unable to change the target values'})
+    }
+})
+
 module.exports = router;
