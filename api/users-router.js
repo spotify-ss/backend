@@ -116,12 +116,12 @@ router.post('/add/negative_track', authenticate, async (req, res) => {
     }
 });
 
-router.delete('/delete/negative_track', async (req, res) => {
+router.delete('/delete/negative_track', authenticate, async (req, res) => {
     try {
         const delTrack = await Users.delNegativeTrack(req.body.track_id);
 
         if(delTrack) {
-            res.status(200).json({ delTrack, message: 'Negative Track deleted!' });
+            res.status(200).json({ message: 'Negative Track deleted!' });
         } else {
             res.status(400).json({ error: 'That Track does not exists' });
         }
