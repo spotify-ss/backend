@@ -2,7 +2,9 @@ const db = require('../data/dbConfig.js');
 
 module.exports = {
     addUser,
-    getUserBy
+    getUserBy,
+    addPostiveTrack,
+    addNegativeTrack
 };
 
 async function addUser(user){
@@ -23,6 +25,15 @@ function getUserBy(username) {
         .first();
 }
 
+function addPostiveTrack(user_id, track_id) {
+    return db('postiveTracks')
+        .insert({ user_id, track_id });
+}
+
+function addNegativeTrack(user_id, track_id) {
+    return db('negativeTracks')
+        .insert({ user_id, track_id });
+}
 function getUserPosSongs(){
 
 }

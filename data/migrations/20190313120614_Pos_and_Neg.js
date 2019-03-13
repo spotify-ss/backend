@@ -1,7 +1,7 @@
 
 exports.up = function(knex, Promise) {
-    return knex.schema.createTable('postiveSongs', ps => {
-        ps
+    return knex.schema.createTable('postiveTracks', pt => {
+        pt
             .integer('user_id')
             .unsigned()
             .references('id')
@@ -9,7 +9,7 @@ exports.up = function(knex, Promise) {
             .onDelete('CASCADE')
             .onUpdate('CASCADE');
 
-        ps
+        pt
             .integer('track_id')
             .unsigned()
             .references('id')
@@ -17,8 +17,8 @@ exports.up = function(knex, Promise) {
             .onDelete('CASCADE')
             .onUpdate('CASCADE');
 
-    }).createTable('negativeSongs', ns => {
-        ns
+    }).createTable('negativeTracks', nt => {
+        nt
             .integer('user_id')
             .unsigned()
             .references('id')
@@ -26,7 +26,7 @@ exports.up = function(knex, Promise) {
             .onDelete('CASCADE')
             .onUpdate('CASCADE');
 
-        ns
+        nt
             .integer('track_id')
             .unsigned()
             .references('id')

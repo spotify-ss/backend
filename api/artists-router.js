@@ -25,6 +25,7 @@ router.get('/artist/:name', async (req, res) => {
             res.status(400).json({ error: 'That artists name is not in the database' });
         }
     } catch (error) {
+        console.log(error)
         res.status(500).json({ error: 'Something bad happened! Unable to get the Artists' });
     }
 });

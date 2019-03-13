@@ -51,4 +51,30 @@ router.post('/login', async (req, res) => {
     }
 });
 
+router.post('/postive_track', async (req, res) => {
+    let { user_id, track_id } = req.body;
+
+    try {
+        const posTrack = await Users.addPostiveTrack(user_id, track_id);
+
+        res.status(201).json({ message: 'Postive Track added!', posTrack });
+    } catch(error) {
+        console.log(error)
+        res.status(500).json({ error: 'Something bad happened! Unable to add the postive track' });
+    }
+});
+
+router.post('/negative_track', async (req, res) => {
+    let { user_id, track_id } = req.body;
+
+    try {
+        const posTrack = await Users.addNegativeTrack(user_id, track_id);
+
+        res.status(201).json({ message: 'Negative Track added!', posTrack });
+    } catch(error) {
+        console.log(error)
+        res.status(500).json({ error: 'Something bad happened! Unable to add the postive track' });
+    }
+});
+
 module.exports = router;
