@@ -53,8 +53,9 @@ async function getMeanValue(){
     return meanvalue;
 }
 
-async function getClosestTracks(track_id, page_number, tracks) {
-    const { mean_values }= await getMeanValue();
+async function getClosestTracks(track_id, page_number) {
+    const tracks = await getTracks();
+    const { mean_values } = await getMeanValue();
     
     const data = { key: 'B652B7B42C7BA2CFCEB4963ED3F92', songs: tracks, mean_values };
 

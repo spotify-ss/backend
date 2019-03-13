@@ -77,15 +77,21 @@ router.post('/add/negative_track', async (req, res) => {
     }
 });
 
-router.get('/user_fit_data', async (req, res) => {
+router.get('/user_predicted_tracks', async (req, res) => {
     try {
-        const data = await Users.getUserFitValues(req.query.user_id);
+        let page_number = req.query.page_number || 0;
 
-        res.status(200).json(data);
+        const data = await Users.getUserPredictedTracks(req.query.user_id, page_number);
+
+        const findTracks = await Users.mapTracks(data);
+        
+        const result = { tracks: findTracks};
+
+        res.status(200).json(result);
     } catch(error) {
-        console.log(error);
+        console.log(error)
         res.status(500).json(error);
     }
-})
+});
 
 module.exports = router;
