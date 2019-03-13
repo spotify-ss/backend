@@ -49,12 +49,12 @@ router.get('/mean_value', async (req, res) => {
 
 router.get('/get_closest_tracks/:track_name', async (req, res) => {
     try {
-        const [track_id] = await Tracks.getTrackByName(req.query.track_name) ;
-        console.log(track_id)
         let page_number = req.query.page_number || 0;
+
+        const { track_id } = await Tracks.getTrackByName(req.params.track_name) ;
         
-        const closestTracks = await Tracks.getClosestTracks(track_id, page_number, tracks);
-        
+        const closestTracks = await Tracks.getClosestTracks(track_id, page_number);
+
         const findTracks = await Tracks.mapTracks(closestTracks);
         
         const result = { tracks: findTracks};
