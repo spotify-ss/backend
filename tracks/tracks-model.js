@@ -8,7 +8,6 @@ module.exports = {
     getMeanValue,
     getClosestTracks,
     mapTracks,
-    getTrackByTrackId
 };
 
 function getTracks(query){
@@ -69,10 +68,8 @@ async function getClosestTracks(track_id, page_number, tracks) {
 }
 
 async function mapTracks(array){
-    // const closestTracks =  await array.map( track => {
-    //     return getTrackByTrackId({track_id: track[0]});
-    // });
     let promises = [];
+
     for(let i =0; i< array.length; i++){
         let track = getTrackByTrackId({track_id: array[i][0]});
         promises.push(track);

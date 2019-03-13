@@ -47,7 +47,7 @@ router.get('/mean_value', async (req, res) => {
     }
 });
 
-router.get('/get_closets_song/:track_name', async (req, res) => {
+router.get('/get_closest_tracks/:track_name', async (req, res) => {
     try {
         let track;
         let tracks = await Tracks.getTracks();
@@ -60,24 +60,16 @@ router.get('/get_closets_song/:track_name', async (req, res) => {
             }
         }
         
-        const closetsTracks = await Tracks.getClosestTracks(track.track_id, page_number, tracks);
+        const closestTracks = await Tracks.getClosestTracks(track.track_id, page_number, tracks);
         
-        const t = await Tracks.mapTracks(closetsTracks);
+        const findTracks = await Tracks.mapTracks(closestTracks);
 
-        
-        res.status(200).json(t);
+        const result = { tracks: findTracks};
+
+        res.status(200).json(result);
     } catch(error) {
         res.status(500).json({ error: 'Unable to get the closets tracks to the current track' });
     }
 });
 
-router.get('/track', async (req,res) => {
-    try {
-        const track = await Tracks.getTrackByTrackId(req.body);
-
-        res.status(200).json(track);
-    } catch(error){
-
-    }
-})
 module.exports = router;
