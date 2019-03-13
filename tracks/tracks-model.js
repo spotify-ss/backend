@@ -4,6 +4,7 @@ const axios = require('axios');
 module.exports = {
     getTracks,
     getTrackByName,
+    getTracksByName,
     getTracksByArtistId,
     getClosestTracks,
     mapTracks,
@@ -22,8 +23,20 @@ function getTracks(){
     // return res;
     return db('tracks');
 }
-
 async function getTrackByName(track_name){
+    const tracks = await getTracks();
+    let input = track_name.toLowerCase();
+    let track;
+
+    for(let i = 0; i < 6000; i++){
+        if(tracks[i].track_name.toLowerCase() === input){
+            track = tracks[i];
+        }
+    }
+    
+    return track;
+}
+async function getTracksByName(track_name){
     const tracks = await getTracks();
     let input = track_name.toLowerCase();
     let track = [];

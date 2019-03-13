@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.get('/:track_name', async (req, res) => {
     try {
-        const track = await Tracks.getTrackByName(req.params.track_name);
+        const track = await Tracks.getTracksByName(req.params.track_name);
 
         if(track){
             res.status(200).json(track);
