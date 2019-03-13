@@ -10,7 +10,7 @@ module.exports = {
     getClosestValues
 };
 
-function getTracks(query){
+function getTracks(){
     // let { page = 1, limit = 100, sortby = 'id', sortdir = 'asc' } = query;
     // const offset = limit * (page - 1);
 
@@ -23,10 +23,21 @@ function getTracks(query){
     return db('tracks');
 }
 
-function getTrackByName(track_name){
-    return db('tracks')
-        .where({ track_name })
-        .first();
+async function getTrackByName(track_name){
+    const tracks = await getTracks();
+    let input = track_name.toLowerCase();
+    let track = [];
+
+    for(let i = 0; i < 6000; i++){
+        if(tracks[i].track_name.toLowerCase().includes(input)){
+            track.push(tracks[i]);
+        }
+    }
+    
+    return track;
+    // return db('tracks')
+    //     .where({ track_name })
+    //     .first();
 }
 
 function getTracksByArtistId(artist_id){

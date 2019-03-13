@@ -5,9 +5,9 @@ const Tracks = require('../tracks/tracks-model.js');
 const router = express.Router();
 
 
-router.get('/', async (req, res) => {
+router.get('/:track_name', async (req, res) => {
     try {
-        const track = await Tracks.getTrackByName(req.query.track_name);
+        const track = await Tracks.getTrackByName(req.params.track_name);
 
         if(track){
             res.status(200).json(track);
@@ -36,7 +36,7 @@ router.get('/artist/:id', async (req, res) => {
 router.get('/get_closest_tracks/:track_name', async (req, res) => {
     try {
         let page_number = req.query.page_number || 0;
-
+        
         const { track_id } = await Tracks.getTrackByName(req.params.track_name) ;
         
         const closestTracks = await Tracks.getClosestTracks(track_id, page_number);
