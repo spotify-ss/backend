@@ -4,7 +4,8 @@ module.exports = {
     addUser,
     getUserBy,
     addPostiveTrack,
-    addNegativeTrack
+    addNegativeTrack,
+    getUserPosSongs
 };
 
 async function addUser(user){
@@ -34,7 +35,12 @@ function addNegativeTrack(user_id, track_id) {
     return db('negativeTracks')
         .insert({ user_id, track_id });
 }
-function getUserPosSongs(){
+
+function getUserPosSongs(id){
+    return db('postiveTracks')
+        .join('users', 'users.id', 'postiveTracks.user_id')
+        .join('tracks', 'tracks.id', 'postiveTracks.track_id')
+        .where('users.id', id)
 
 }
 

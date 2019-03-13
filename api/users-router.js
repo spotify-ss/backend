@@ -51,7 +51,7 @@ router.post('/login', async (req, res) => {
     }
 });
 
-router.post('/postive_track', async (req, res) => {
+router.post('/add/postive_track', async (req, res) => {
     let { user_id, track_id } = req.body;
 
     try {
@@ -64,7 +64,7 @@ router.post('/postive_track', async (req, res) => {
     }
 });
 
-router.post('/negative_track', async (req, res) => {
+router.post('/add/negative_track', async (req, res) => {
     let { user_id, track_id } = req.body;
 
     try {
@@ -74,6 +74,17 @@ router.post('/negative_track', async (req, res) => {
     } catch(error) {
         console.log(error)
         res.status(500).json({ error: 'Something bad happened! Unable to add the postive track' });
+    }
+});
+
+router.get('/postive_track', async( req, res) => {
+    try {
+        const tracks = await Users.getUserPosSongs(req.query.user_id);
+
+        res.status(200).json(tracks);
+    } catch(error){
+        console.log(error)
+        res.status(500).json(error);
     }
 });
 
