@@ -50,6 +50,59 @@ Returns:
     jsonWebToken
 }
 ```
+### /api/users/add/postive_track
+
+- **POST**
+
+expects body: 
+```javascript 
+{
+    "user_id": number,
+    "track_id": number
+}
+```
+
+returns : the index of the postive song in the database 
+
+### /api/users/add/negative_track
+
+- **POST**
+
+expects body: 
+```javascript 
+{
+    "user_id": number,
+    "track_id": number
+}
+```
+
+returns : the index of the negative song in the database 
+
+### /api/users/user_fit_data
+
+- **GET**
+
+expects a query string
+
+example: /api/users/user_fit_data?user_id=1
+
+returns : The user fit values as an object
+```javascript
+{
+    "acousticness": 
+        [coefficient index integer value],
+        [coefficient float value],
+    "danceability": [
+        1,
+        0.166134945833774
+    ],
+    "duration_ms": [
+        2,
+        -0.1722508208496045
+    ],
+    ...
+}
+```
 
 ## Artists End-points
 
