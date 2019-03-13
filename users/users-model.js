@@ -6,8 +6,9 @@ module.exports = {
     getUserBy,
     addPostiveTrack,
     addNegativeTrack,
-    getUserPosTracks,
-    getUserFitValues
+    getUserPredictedTracks,
+    getUserFitValues,
+    mapTracks
 };
 
 async function addUser(user){
@@ -100,6 +101,21 @@ async function getUserFitValues(user_id){
 
 }   
 
+async function getUserPredictedTracks(user_id, page_number){
+    const tracks = await db('tracks');
+    const { mean_values } = await getMeanValue();
+    const model = await getUserFitValues(user_id);
+    
+    const data = { key: 'B652B7B42C7BA2CFCEB4963ED3F92',  songs: tracks, mean_values, model: model };
+
+    const response = await axios.post(`https://spotify-ss-data-science.herokuapp.com/api/v1.0/user/predict/${page_number}`, data);
+    const json = await response.data;
+
+    let result = Object.entries(json);
+
+    return result;
+}
+
 async function getMeanValue(){
     const tracks = await db('tracks');
     
@@ -111,4 +127,21 @@ async function getMeanValue(){
     let meanvalue = { mean_values: json };
 
     return meanvalue;
+}
+
+async function getTrackByTrackId(track_id){
+    const track = await db('tracks').where(track_id).first();
+
+    return track;
+}
+
+async function mapTracks(array){
+    let promises = [];
+
+    for(let i =0; i< array.length; i++){
+        let track = getTrackByTrackId({track_id: array[i][0]});
+        promises.push(track);
+    }
+
+    return Promise.all(promises);
 }
