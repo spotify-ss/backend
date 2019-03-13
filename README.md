@@ -154,7 +154,7 @@ returns: a list of 100 aritsts on the 5th page
 
 expects params : /api/artists/artist/name
 
-example: /api/artists/artist/YG (is case senstive... for now)
+example: /api/artists/artist/yg
 
 returns: 
 ```javascript
@@ -191,18 +191,18 @@ returns:
 
 ## Track End-points
 
-### /api/track
+### /api/track/:track_name
 
 - **GET**
 
-expects query string
+expects params: track_name
 
-example: /api/track?track_name=Attac (is case senstive... for now)
+example: /api/track/fallin
 
-returns: 
+returns tracks with the characters searched in it's name: 
 ```javascript
 {
-    "track":
+    "tracks":
         {
             "id":int,
             "track_name": "Big Bank feat. 2 Chainz, Big Sean, Nicki Minaj",
@@ -224,6 +224,7 @@ returns:
             "artist_name": "YG",
             "artist_id": int
         },
+        ...
 }
 ```
 
@@ -270,11 +271,11 @@ returns:
 
 expects params: track_name
 
-exmaple : /api/track/get_closest_tracks/Lactose (case senstive for now)
+exmaple : /api/track/get_closest_tracks/lactose 
 
 can access next page of tracks with query string
 
-example : /api/track/get_closest_tracks/Lactose/?page_number=5
+example : /api/track/get_closest_tracks/lactose/?page_number=5
 
 returns a list of the closest tracks: 
 ```javascript

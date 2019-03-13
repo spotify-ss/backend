@@ -17,10 +17,21 @@ function getArtists(query){
 
     return res;
 }
-function getArtistByName(name) {
-    return db('artists')
-        .where({ name })
-        .first();
+async function getArtistByName(name) {
+    const artists = await db('artists');
+    let input = name.toLowerCase();
+    let artist;
+
+    for(let i = 0; i < 2975; i++){
+        if(artists[i].name.toLowerCase() === input){
+            artist = artists[i];
+        }
+    }
+    
+    return artist;
+    // return db('artists')
+    //     .where({ name })
+    //     .first();
 }
 
 function getTracksForArtist(id) {
