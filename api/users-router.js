@@ -100,19 +100,28 @@ router.get('/positive_tracks', authenticate, async (req, res) => {
 });
 
 router.post('/add/positive_track', authenticate, async (req, res) => {
-    let { user_id, track_id } = req.body;
-    let isInList = false;
-
+    let user_id = req.decoded.subject;
+    let track_id = req.body.track_id;
+    let isInPositiveList = false;
+    let isInNegativeList = false;
+   
     try {
         const posTracks = await Users.getUserPosTracks(req.decoded.subject);
-    
+        const negTracks = await Users.getUserNegTracks(req.decoded.subject);
+        
         for(let i = 0; i < posTracks.length; i++){
             if(track_id === posTracks[i].id){
-                isInList = true;
-            }
+                isInPositiveList = true;
+            } 
+        }
+        
+        for(let i = 0; i < negTracks.length; i++){
+            if(track_id === negTracks[i].id){
+                isInNegativeList = true;
+            } 
         }
 
-        if(isInList){
+        if(isInPositiveList){
             res.status(400).json({ error: 'User already has that song in their Positive Tracks list' });
         } else {
             try {
@@ -124,6 +133,11 @@ router.post('/add/positive_track', authenticate, async (req, res) => {
                 res.status(500).json({ error: 'Something bad happened! Unable to add the positive track' });
             }
         }
+
+        if(isInNegativeList){
+            const negTrack = await Users.delNegativeTrack(user_id, track_id);
+        } 
+
     } catch(error) {
         res.status(500).json({ error: 'Something bad happened! Unable to check the users Positive Tracks list'})
     }
@@ -159,30 +173,44 @@ router.get('/negative_tracks', authenticate, async (req, res) => {
 });
 
 router.post('/add/negative_track', authenticate, async (req, res) => {
-    let { user_id, track_id } = req.body;
-    let isInList = false;
+    let user_id = req.decoded.subject;
+    let track_id = req.body.track_id;
+    let isInPositiveList = false;
+    let isInNegativeList = false;
 
     try {
         const negTracks = await Users.getUserNegTracks(req.decoded.subject);
+        const posTracks = await Users.getUserPosTracks(req.decoded.subject);
     
+        for(let i = 0; i < posTracks.length; i++){
+            if(track_id === posTracks[i].id){
+                isInPositiveList = true;
+            } 
+        }
+        
         for(let i = 0; i < negTracks.length; i++){
             if(track_id === negTracks[i].id){
-                isInList = true;
-            }
+                isInNegativeList = true;
+            } 
         }
 
-        if(isInList){
+        if(isInNegativeList){
             res.status(400).json({ error: 'User already has that song in their Negative Tracks list' });
         } else {
             try {
-                const posTrack = await Users.addNegativeTrack(req.decoded.subject, track_id);
+                const negTrack = await Users.addNegativeTrack(req.decoded.subject, track_id);
         
-                res.status(201).json({ message: 'Negative Track added!', posTrack });
+                res.status(201).json({ message: 'Negative Track added!', negTrack });
             } catch(error) {
                 console.log(error)
                 res.status(500).json({ error: 'Something bad happened! Unable to add the Negative track' });
             }
         }
+
+        if(isInPositiveList){
+            const posTrack = await Users.delPositiveTrack(user_id, track_id);
+        } 
+
     } catch(error) {
         res.status(500).json({ error: 'Something bad happened! Unable to check the users Negative tracks list' });
     }
