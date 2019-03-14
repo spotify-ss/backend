@@ -4,6 +4,8 @@ const db = require('../data/dbConfig.js');
 module.exports = {
     addUser,
     getUserBy,
+    updateUserPassword,
+    deleteUser,
     addPositiveTrack,
     addNegativeTrack,
     getUserPredictedTracks,
@@ -24,6 +26,19 @@ function getUserById(id) {
     return db('users')
         .where({ id })
         .first();
+}
+
+function updateUserPassword(id, changes) {
+    return db('users')
+        .where({ id })
+        .update('password', changes)
+        .then(updated => (updated > 0 ? getUserById(id) : null ));
+}
+
+function deleteUser(id) {
+    return db('users')
+        .where({ id })
+        .del();
 }
 
 function getUserBy(username) {
@@ -95,6 +110,7 @@ function getUserNegTracks(id){
 }
 
 function delPositiveTrack(track_id) {
+    console.log('')
     return db('postiveTracks')
         .where({ track_id })
         .del();

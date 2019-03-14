@@ -33,10 +33,10 @@ router.get('/artist/:id', async (req, res) => {
     try {
         const tracks = await Tracks.getTracksByArtistId(req.params.id);
 
-        if(tracks) {
+        if(tracks.length === 0) {
+            res.status(400).json({ error: "That Artist isn't in the database or we don't have any Tracks for the Artist" })
+        } else{
             res.status(200).json(tracks);
-        } else {
-            res.status(400).json({ error: "That Artist isn't in the database or we don't have any Tracks" })
         }
     } catch (error) {
         res.status(500).json({ error: 'Something bad happened! Unable to find the Artists Tracks' });
@@ -57,6 +57,7 @@ router.get('/get_closest_tracks/:track_name', async (req, res) => {
         
         res.status(200).json(result);
     } catch(error) {
+        console.log(error)
         res.status(500).json({ error: 'Unable to get the closest tracks to the current track' });
     }
 });

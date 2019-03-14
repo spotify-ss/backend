@@ -55,6 +55,49 @@ Returns:
     jsonWebToken
 }
 ```
+### /api/users/update_password
+
+- **PUT**
+
+expects header :
+```javascript
+{
+    Authorization: jsonWebToken
+}
+```
+
+expects body: 
+```javascript
+{
+    "old_password": string,
+	"new_password": string
+}
+```
+
+returns: 
+```javascript
+{
+    "message": "Password updated!"
+}
+```
+
+### /api/users/delete/user
+
+- **DELETE**
+
+expects header :
+```javascript
+{
+    Authorization: jsonWebToken
+}
+```
+
+returns:
+```javascript
+{
+    "message": "User deleted"
+} 
+```
 
 ### /api/users/positive_tracks
 

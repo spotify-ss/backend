@@ -53,6 +53,41 @@ router.post('/login', async (req, res) => {
     }
 });
 
+router.put('/update_password', authenticate, async (req, res) => {
+    let { old_password, new_password } = req.body;
+
+    try {
+        const user = await Users.getUserBy({ username: req.decoded.username });
+
+        if(user && bcrypt.compareSync(old_password, user.password)){
+            const hash = bcrypt.hashSync(new_password, 12);
+
+            new_password = hash;
+
+            const updated = await Users.updateUserPassword(user.id, new_password)
+            
+            res.status(200).json({ message: 'Password updated!' });
+        } else {
+            res.status(401).json({ error: 'Invalid Username or Password' });
+        }
+    } catch(error) {
+        console.log(error);
+        res.status(500).json({ error: 'Something bad happened!'})
+    }
+})
+
+router.delete('/delete/user', authenticate, async (req, res) => {
+    try {
+        const user = await Users.deleteUser(req.decoded.subject);
+
+        res.status(200).json({ message: 'User deleted' });
+
+    } catch(error) {
+        console.log(error);
+        res.status(500).json({ error: 'Something happened! Unable to delete the user' });
+    }
+});
+
 router.get('/positive_tracks', authenticate, async (req, res) => {
     try {
         const posTracks = await Users.getUserPosTracks(req.decoded.subject);
@@ -81,7 +116,7 @@ router.post('/add/positive_track', authenticate, async (req, res) => {
             res.status(400).json({ error: 'User already has that song in their Positive Tracks list' });
         } else {
             try {
-                const posTrack = await Users.addPositiveTrack(user_id, track_id);
+                const posTrack = await Users.addPositiveTrack(req.decoded.subject, track_id);
         
                 res.status(201).json({ message: 'Positive Track added!', posTrack});
             } catch(error) {
@@ -137,7 +172,7 @@ router.post('/add/negative_track', authenticate, async (req, res) => {
             res.status(400).json({ error: 'User already has that song in their Negative Tracks list' });
         } else {
             try {
-                const posTrack = await Users.addNegativeTrack(user_id, track_id);
+                const posTrack = await Users.addNegativeTrack(req.decoded.subject, track_id);
         
                 res.status(201).json({ message: 'Negative Track added!', posTrack });
             } catch(error) {
