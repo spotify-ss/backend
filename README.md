@@ -116,7 +116,7 @@ returns :
 }
 ```
 
-### /api/users/add/postive_track
+### /api/users/add/positive_track
 
 - **POST**
 
@@ -289,7 +289,7 @@ returns : Tracks based on the users liked/disliked track data
 ### /api/artists
 
 - **GET**
-expects query string, if none default is page 1 with 100 artists per page : /api/arists?page=number&limit=number (limit is number of artists per page)
+can use a query string, if none default is page 1 with 100 artists per page : /api/arists?page=number&limit=number (limit is number of artists per page)
 
 example 1: /api/artists
 returns: a list of first 100 artists in the database
