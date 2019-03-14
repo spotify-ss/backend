@@ -53,6 +53,29 @@ router.post('/login', async (req, res) => {
     }
 });
 
+router.put('/update_password', authenticate, async (req, res) => {
+    let { old_password, new_password } = req.body;
+
+    try {
+        const user = await Users.getUserBy({ username: req.decoded.username });
+
+        if(user && bcrypt.compareSync(old_password, user.password)){
+            const hash = bcrypt.hashSync(new_password, 12);
+
+            new_password = hash;
+
+            const updated = await Users.updateUserPassword(user.id, new_password)
+            
+            res.status(200).json(updated)
+        } else {
+            res.status(401).json({ error: 'Invalid Username or Password' });
+        }
+    } catch(error) {
+        console.log(error);
+        res.status(500).json({ error: 'Something bad happened!'})
+    }
+})
+
 router.get('/positive_tracks', authenticate, async (req, res) => {
     try {
         const posTracks = await Users.getUserPosTracks(req.decoded.subject);
