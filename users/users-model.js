@@ -109,16 +109,15 @@ function getUserNegTracks(id){
 
 }
 
-function delPositiveTrack(track_id) {
-    console.log('')
+function delPositiveTrack(user_id, track_id) {
     return db('postiveTracks')
-        .where({ track_id })
+        .where({ user_id, track_id })
         .del();
 }
 
-function delNegativeTrack(track_id) {
+function delNegativeTrack(user_id, track_id) {
     return db('negativeTracks')
-        .where({ track_id })
+        .where({ user_id, track_id })
         .del();
 }
 

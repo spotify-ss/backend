@@ -130,8 +130,11 @@ router.post('/add/positive_track', authenticate, async (req, res) => {
 });
 
 router.delete('/delete/positive_track', authenticate, async (req, res) => {
+    let user_id = req.decoded.subject;
+    let track_id = req.body.track_id;
+    
     try {
-        const delTrack = await Users.delPositiveTrack(req.body.track_id);
+        const delTrack = await Users.delPositiveTrack( user_id, track_id);
 
         if(delTrack) {
             res.status(200).json({ delTrack, message: 'Positive Track deleted!' });
@@ -186,8 +189,11 @@ router.post('/add/negative_track', authenticate, async (req, res) => {
 });
 
 router.delete('/delete/negative_track', authenticate, async (req, res) => {
+    let user_id = req.decoded.subject;
+    let track_id = req.body.track_id;
+
     try {
-        const delTrack = await Users.delNegativeTrack(req.body.track_id);
+        const delTrack = await Users.delNegativeTrack(user_id, track_id);
 
         if(delTrack) {
             res.status(200).json({ message: 'Negative Track deleted!' });
