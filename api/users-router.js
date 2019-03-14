@@ -76,6 +76,18 @@ router.put('/update_password', authenticate, async (req, res) => {
     }
 })
 
+router.delete('/delete/user', authenticate, async (req, res) => {
+    try {
+        const user = await Users.deleteUser(req.decoded.subject);
+
+        res.status(200).json({ message: 'User deleted' });
+
+    } catch(error) {
+        console.log(error);
+        res.status(500).json({ error: 'Something happened! Unable to delete the user' });
+    }
+});
+
 router.get('/positive_tracks', authenticate, async (req, res) => {
     try {
         const posTracks = await Users.getUserPosTracks(req.decoded.subject);

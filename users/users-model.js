@@ -5,6 +5,7 @@ module.exports = {
     addUser,
     getUserBy,
     updateUserPassword,
+    deleteUser,
     addPositiveTrack,
     addNegativeTrack,
     getUserPredictedTracks,
@@ -32,6 +33,12 @@ function updateUserPassword(id, changes) {
         .where({ id })
         .update('password', changes)
         .then(updated => (updated > 0 ? getUserById(id) : null ));
+}
+
+function deleteUser(id) {
+    return db('users')
+        .where({ id })
+        .del();
 }
 
 function getUserBy(username) {
