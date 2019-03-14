@@ -5,19 +5,28 @@ const Tracks = require('../tracks/tracks-model.js');
 
 const router = express.Router();
 
+router.get('/', async (req, res) => {
+    try {
+        const tracks = await Tracks.getTracks(req.query);
+
+        res.status(200).json(tracks);
+    } catch (error){
+        res.status(500).json({ error: 'Something bad happened! Unable to get the list of tracks' });
+    }
+});
 
 router.get('/:track_name', async (req, res) => {
-    try {
-        const track = await Tracks.getTracksByName(req.params.track_name);
-
-        if(track){
-            res.status(200).json(track);
-        } else {
-            res.status(400).json({ error: 'The Track with that name is not in the database' });
+        try {
+            const track = await Tracks.getTracksByName(req.params.track_name);
+    
+            if(track){
+                res.status(200).json(track);
+            } else {
+                res.status(400).json({ error: 'The Track with that name is not in the database' });
+            }
+        } catch (error){
+            res.status(500).json({ error: 'Something bad happend! Unable to find the track' });
         }
-    } catch (error){
-        res.status(500).json({ error: 'Something bad happend! Unable to find the track' });
-    }
 });
 
 router.get('/artist/:id', async (req, res) => {
