@@ -135,7 +135,7 @@ router.get('/user_predicted_tracks', authenticate, async (req, res) => {
     try {
         let page_number = req.query.page_number || 0;
 
-        const data = await Users.getUserPredictedTracks(req.query.user_id, page_number);
+        const data = await Users.getUserPredictedTracks(req.decoded.subject, page_number);
 
         const findTracks = await Helpers.mapTracks(data);
         

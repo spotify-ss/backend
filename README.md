@@ -207,9 +207,9 @@ expects header :
     Authorization: jsonWebToken
 }
 
-expects a query string
+expects a query string for page number
 
-example: /api/users/user_predicted_tracks?user_id=1&page_number=5
+example: /api/users/user_predicted_tracks?page_number=5
 
 returns : Tracks based on the users liked/disliked track data
 ```javascript
