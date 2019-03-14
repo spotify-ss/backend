@@ -47,12 +47,73 @@ Expects body:
 Returns:
 ```javascript
 {
+    userID,
+    username,
     jsonWebToken
 }
 ```
+
+### /api/users/positive_tracks
+
+- **GET**
+
+expects header :
+{
+    Authorization: jsonWebToken
+}
+
+returns an array of the positive songs for the user: 
+```javascript
+[
+    {
+        "acousticness": 0.953,
+        "danceability": 0.73,
+        "duration_ms": 50449,
+        "energy": 0.33399999999999996,
+        "instrumentalness": 0.912,
+        "key": 8,
+        "liveness": 0.0849,
+        "loudness": -10.447000000000001,
+        "mode": 0,
+        "speechiness": 0.36200000000000004,
+        "tempo": 81.137,
+        "time_signature": 4,
+        "valence": 0.8290000000000001,
+        "popularity": 24,
+        "track_name": "Fill Collins",
+        "track_id": "4Lmr8FBZaUWHfuBqZI0aJ5",
+        "id": 500
+    },
+    ...
+]
+```
+### /api/users/delete/positive_track
+
+- **DELETE**
+
+expects header :
+{
+    Authorization: jsonWebToken
+}
+
+expects body : 
+{
+    "track_id": number (this number is found on the Track object it self under id)
+}
+
+returns : 
+{
+    "message": "Positive Track deleted!"
+}
+
 ### /api/users/add/postive_track
 
 - **POST**
+
+expects header :
+{
+    Authorization: jsonWebToken
+}
 
 expects body: 
 ```javascript 
@@ -64,9 +125,49 @@ expects body:
 
 returns : the index of the postive track in the database 
 
+### /api/users/negative_tracks
+
+- **GET**
+
+expects header :
+{
+    Authorization: jsonWebToken
+}
+
+returns an array of the negative songs for the user: 
+```javascript
+[
+    {
+        "acousticness": 0.953,
+        "danceability": 0.73,
+        "duration_ms": 50449,
+        "energy": 0.33399999999999996,
+        "instrumentalness": 0.912,
+        "key": 8,
+        "liveness": 0.0849,
+        "loudness": -10.447000000000001,
+        "mode": 0,
+        "speechiness": 0.36200000000000004,
+        "tempo": 81.137,
+        "time_signature": 4,
+        "valence": 0.8290000000000001,
+        "popularity": 24,
+        "track_name": "Fill Collins",
+        "track_id": "4Lmr8FBZaUWHfuBqZI0aJ5",
+        "id": 500
+    },
+    ...
+]
+```
+
 ### /api/users/add/negative_track
 
 - **POST**
+
+expects header :
+{
+    Authorization: jsonWebToken
+}
 
 expects body: 
 ```javascript 
@@ -78,13 +179,37 @@ expects body:
 
 returns : the index of the negative track in the database 
 
+### /api/users/delete/negative_track
+
+- **DELETE**
+
+expects header :
+{
+    Authorization: jsonWebToken
+}
+
+expects body : 
+{
+    "track_id": number (this number is found on the Track object it self under id)
+}
+
+returns : 
+{
+    "message": "Negative Track deleted!"
+}
+
 ### /api/users/user_predicted_tracks
 
 - **GET**
 
-expects a query string
+expects header :
+{
+    Authorization: jsonWebToken
+}
 
-example: /api/users/user_predicted_tracks?user_id=1&page_number=5
+can use a query string for page number
+
+example: /api/users/user_predicted_tracks?page_number=5
 
 returns : Tracks based on the users liked/disliked track data
 ```javascript

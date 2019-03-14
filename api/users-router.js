@@ -116,12 +116,12 @@ router.post('/add/negative_track', authenticate, async (req, res) => {
     }
 });
 
-router.delete('/delete/negative_track', async (req, res) => {
+router.delete('/delete/negative_track', authenticate, async (req, res) => {
     try {
         const delTrack = await Users.delNegativeTrack(req.body.track_id);
 
         if(delTrack) {
-            res.status(200).json({ delTrack, message: 'Negative Track deleted!' });
+            res.status(200).json({ message: 'Negative Track deleted!' });
         } else {
             res.status(400).json({ error: 'That Track does not exists' });
         }
@@ -135,7 +135,7 @@ router.get('/user_predicted_tracks', authenticate, async (req, res) => {
     try {
         let page_number = req.query.page_number || 0;
 
-        const data = await Users.getUserPredictedTracks(req.query.user_id, page_number);
+        const data = await Users.getUserPredictedTracks(req.decoded.subject, page_number);
 
         const findTracks = await Helpers.mapTracks(data);
         
