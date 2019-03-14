@@ -116,7 +116,7 @@ router.post('/add/positive_track', authenticate, async (req, res) => {
             res.status(400).json({ error: 'User already has that song in their Positive Tracks list' });
         } else {
             try {
-                const posTrack = await Users.addPositiveTrack(user_id, track_id);
+                const posTrack = await Users.addPositiveTrack(req.decoded.subject, track_id);
         
                 res.status(201).json({ message: 'Positive Track added!', posTrack});
             } catch(error) {
@@ -172,7 +172,7 @@ router.post('/add/negative_track', authenticate, async (req, res) => {
             res.status(400).json({ error: 'User already has that song in their Negative Tracks list' });
         } else {
             try {
-                const posTrack = await Users.addNegativeTrack(user_id, track_id);
+                const posTrack = await Users.addNegativeTrack(req.decoded.subject, track_id);
         
                 res.status(201).json({ message: 'Negative Track added!', posTrack });
             } catch(error) {

@@ -110,6 +110,7 @@ function getUserNegTracks(id){
 }
 
 function delPositiveTrack(track_id) {
+    console.log('')
     return db('postiveTracks')
         .where({ track_id })
         .del();
