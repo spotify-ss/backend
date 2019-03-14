@@ -29,6 +29,7 @@ password must be at least 8 characters long
 Returns:
 ```javascript
 {
+    userID,
     username,
     jsonWebToken // use this for the Authorization header
 }
