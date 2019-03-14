@@ -16,7 +16,6 @@ exports.up = function(knex, Promise) {
             .inTable('tracks')
             .onDelete('CASCADE')
             .onUpdate('CASCADE')
-            .unique();
 
     }).createTable('negativeTracks', nt => {
         nt
@@ -34,7 +33,6 @@ exports.up = function(knex, Promise) {
             .inTable('tracks')
             .onDelete('CASCADE')
             .onUpdate('CASCADE')
-            .unique();
     });
 };
 
