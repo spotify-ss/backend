@@ -207,7 +207,7 @@ expects header :
     Authorization: jsonWebToken
 }
 
-expects a query string for page number
+can use a query string for page number
 
 example: /api/users/user_predicted_tracks?page_number=5
 
