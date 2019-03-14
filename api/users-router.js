@@ -66,7 +66,7 @@ router.put('/update_password', authenticate, async (req, res) => {
 
             const updated = await Users.updateUserPassword(user.id, new_password)
             
-            res.status(200).json(updated)
+            res.status(200).json({ message: 'Password updated!' });
         } else {
             res.status(401).json({ error: 'Invalid Username or Password' });
         }
