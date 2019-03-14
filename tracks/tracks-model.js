@@ -10,20 +10,20 @@ module.exports = {
     getClosestValues
 };
 
-function getTracks(){
-    // let { page = 1, limit = 100, sortby = 'id', sortdir = 'asc' } = query;
-    // const offset = limit * (page - 1);
+function getTracks(query){
+    let { page = 1, limit = 100, sortby = 'id', sortdir = 'asc' } = query;
+    const offset = limit * (page - 1);
 
-    // let res = db('tracks')
-    //     .orderBy(sortby, sortdir)
-    //     .limit(limit)
-    //     .offset(offset);
+    let res = db('tracks')
+        .orderBy(sortby, sortdir)
+        .limit(limit)
+        .offset(offset);
 
-    // return res;
-    return db('tracks');
+    return res;
 }
+
 async function getTrackByName(track_name){
-    const tracks = await getTracks();
+    const tracks = await db('tracks');
     let input = track_name.toLowerCase();
     let track;
 
@@ -36,7 +36,7 @@ async function getTrackByName(track_name){
     return track;
 }
 async function getTracksByName(track_name){
-    const tracks = await getTracks();
+    const tracks = await db('tracks');
     let input = track_name.toLowerCase();
     let track = [];
 
@@ -71,7 +71,7 @@ async function getMeanValue(){
 }
 
 async function getClosestTracks(track_id, page_number) {
-    const tracks = await getTracks();
+    const tracks = await db('tracks');
     const { mean_values } = await getMeanValue();
     
     const data = { key: 'B652B7B42C7BA2CFCEB4963ED3F92', songs: tracks, mean_values };
@@ -86,7 +86,7 @@ async function getClosestTracks(track_id, page_number) {
 }
 
 async function getClosestValues(target, page_number) {
-    const tracks = await getTracks();
+    const tracks = await db('tracks');
     const { mean_values } = await getMeanValue();
 
     const data = { key: 'B652B7B42C7BA2CFCEB4963ED3F92', songs: tracks, mean_values, target };
