@@ -28,8 +28,10 @@ password must be at least 8 characters long
 
 Returns:
 ```javascript
-username,
-jsonWebToken // use this for the Authorization header
+{
+    username,
+    jsonWebToken // use this for the Authorization header
+}
 ```
 
 ### /api/users/login
@@ -58,10 +60,11 @@ Returns:
 - **GET**
 
 expects header :
+```javascript
 {
     Authorization: jsonWebToken
 }
-
+```
 returns an array of the positive songs for the user: 
 ```javascript
 [
@@ -92,28 +95,36 @@ returns an array of the positive songs for the user:
 - **DELETE**
 
 expects header :
+```javascript
 {
     Authorization: jsonWebToken
 }
+```
 
 expects body : 
+```javascript
 {
     "track_id": number (this number is found on the Track object it self under id)
 }
+```
 
-returns : 
+returns :
+```javascript 
 {
     "message": "Positive Track deleted!"
 }
+```
 
 ### /api/users/add/postive_track
 
 - **POST**
 
 expects header :
+```javascript
 {
     Authorization: jsonWebToken
 }
+```
 
 expects body: 
 ```javascript 
@@ -130,9 +141,11 @@ returns : the index of the postive track in the database
 - **GET**
 
 expects header :
+```javascript
 {
     Authorization: jsonWebToken
 }
+```
 
 returns an array of the negative songs for the user: 
 ```javascript
@@ -165,9 +178,11 @@ returns an array of the negative songs for the user:
 - **POST**
 
 expects header :
+```javascript
 {
     Authorization: jsonWebToken
 }
+```
 
 expects body: 
 ```javascript 
@@ -184,28 +199,36 @@ returns : the index of the negative track in the database
 - **DELETE**
 
 expects header :
+```javascript
 {
     Authorization: jsonWebToken
 }
+```
 
 expects body : 
+```javascript
 {
     "track_id": number (this number is found on the Track object it self under id)
 }
+```
 
 returns : 
+```javascript
 {
     "message": "Negative Track deleted!"
 }
+```
 
 ### /api/users/user_predicted_tracks
 
 - **GET**
 
 expects header :
+```javascript
 {
     Authorization: jsonWebToken
 }
+```
 
 can use a query string for page number
 
@@ -315,6 +338,42 @@ returns:
 ```
 
 ## Track End-points
+
+### /api/track/ 
+
+- **GET** 
+
+can use a query to change the page of the listed tracks
+
+example: /api/track?page=5
+
+returns a list of all the tracks in the Database: 
+```javascript
+[
+    {
+        "id": 1,
+        "track_name": "Big Bank feat. 2 Chainz, Big Sean, Nicki Minaj",
+        "track_id": "2RM4jf1Xa9zPgMGRDiht8O",
+        "acousticness": 0.0058200000000000005,
+        "danceability": 0.743,
+        "duration_ms": 238373,
+        "energy": 0.33899999999999997,
+        "instrumentalness": 0,
+        "key": 1,
+        "liveness": 0.0812,
+        "loudness": -7.678,
+        "mode": 1,
+        "speechiness": 0.409,
+        "tempo": 203.92700000000002,
+        "time_signature": 4,
+        "valence": 0.11800000000000001,
+        "popularity": 44,
+        "artist_name": "YG",
+        "artist_id": 1
+    },
+    ...
+]
+```
 
 ### /api/track/:track_name
 
