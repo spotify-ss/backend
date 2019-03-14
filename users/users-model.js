@@ -4,11 +4,14 @@ const db = require('../data/dbConfig.js');
 module.exports = {
     addUser,
     getUserBy,
-    addPostiveTrack,
+    addPositiveTrack,
     addNegativeTrack,
     getUserPredictedTracks,
     getUserFitValues,
-    mapTracks
+    getUserPosTracks,
+    getUserNegTracks,
+    delPositiveTrack,
+    delNegativeTrack
 };
 
 async function addUser(user){
@@ -29,7 +32,7 @@ function getUserBy(username) {
         .first();
 }
 
-function addPostiveTrack(user_id, track_id) {
+function addPositiveTrack(user_id, track_id) {
     return db('postiveTracks')
         .insert({ user_id, track_id });
 }
@@ -59,7 +62,9 @@ function getUserPosTracks(id){
             'time_signature',
             'valence',
             'popularity',
-            'track_name');
+            'track_name',
+            'tracks.track_id',
+            'tracks.id');
 
 }
 
@@ -83,8 +88,22 @@ function getUserNegTracks(id){
             'time_signature',
             'valence',
             'popularity',
-            'track_name')
+            'track_name',
+            'tracks.track_id',
+            'tracks.id');
 
+}
+
+function delPositiveTrack(track_id) {
+    return db('postiveTracks')
+        .where({ track_id })
+        .del();
+}
+
+function delNegativeTrack(track_id) {
+    return db('negativeTracks')
+        .where({ track_id })
+        .del();
 }
 
 async function getUserFitValues(user_id){
@@ -127,21 +146,4 @@ async function getMeanValue(){
     let meanvalue = { mean_values: json };
 
     return meanvalue;
-}
-
-async function getTrackByTrackId(track_id){
-    const track = await db('tracks').where(track_id).first();
-
-    return track;
-}
-
-async function mapTracks(array){
-    let promises = [];
-
-    for(let i =0; i< array.length; i++){
-        let track = getTrackByTrackId({track_id: array[i][0]});
-        promises.push(track);
-    }
-
-    return Promise.all(promises);
 }

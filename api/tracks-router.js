@@ -1,5 +1,6 @@
 const express = require('express');
 
+const Helpers = require('../helpers/helpers.js');
 const Tracks = require('../tracks/tracks-model.js');
 
 const router = express.Router();
@@ -41,13 +42,13 @@ router.get('/get_closest_tracks/:track_name', async (req, res) => {
         
         const closestTracks = await Tracks.getClosestTracks(track_id, page_number);
 
-        const findTracks = await Tracks.mapTracks(closestTracks);
+        const findTracks = await Helpers.mapTracks(closestTracks);
         
         const result = { tracks: findTracks};
         
         res.status(200).json(result);
     } catch(error) {
-        res.status(500).json({ error: 'Unable to get the closets tracks to the current track' });
+        res.status(500).json({ error: 'Unable to get the closest tracks to the current track' });
     }
 });
 
@@ -59,7 +60,7 @@ router.post('/change_feature_values', async (req, res) => {
 
         const values = await Tracks.getClosestValues(target, page_number);
 
-        const findTracks = await Tracks.mapTracks(values);
+        const findTracks = await Helpers.mapTracks(values);
         
         const result = { tracks: findTracks};
 

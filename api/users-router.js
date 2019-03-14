@@ -1,8 +1,10 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 
+const Helpers = require('../helpers/helpers.js');
 const Users = require('../users/users-model.js');
 const tokenService = require('../auth/tokenService.js');
+const { authenticate } = require('../auth/authenticate');
 
 const router = express.Router();
 
@@ -51,20 +53,57 @@ router.post('/login', async (req, res) => {
     }
 });
 
-router.post('/add/postive_track', async (req, res) => {
-    let { user_id, track_id } = req.body;
-
+router.get('/positive_tracks', authenticate, async (req, res) => {
     try {
-        const posTrack = await Users.addPostiveTrack(user_id, track_id);
+        const posTracks = await Users.getUserPosTracks(req.decoded.subject);
 
-        res.status(201).json({ message: 'Postive Track added!', posTrack });
+        res.status(200).json(posTracks);
+
     } catch(error) {
-        console.log(error)
-        res.status(500).json({ error: 'Something bad happened! Unable to add the postive track' });
+        res.status(500).json({ error: 'Something bad happened! Unable to get the list of Positive tracks' });
     }
 });
 
-router.post('/add/negative_track', async (req, res) => {
+router.post('/add/positive_track', authenticate, async (req, res) => {
+    let { user_id, track_id } = req.body;
+
+    try {
+        const posTrack = await Users.addPositiveTrack(user_id, track_id);
+
+        res.status(201).json({ message: 'Positive Track added!', posTrack});
+    } catch(error) {
+        console.log(error)
+        res.status(500).json({ error: 'Something bad happened! Unable to add the positive track' });
+    }
+});
+
+router.delete('/delete/positive_track', authenticate, async (req, res) => {
+    try {
+        const delTrack = await Users.delPositiveTrack(req.body.track_id);
+
+        if(delTrack) {
+            res.status(200).json({ delTrack, message: 'Positive Track deleted!' });
+        } else {
+            res.status(400).json({ error: 'That Track does not exists' });
+        }
+    } catch(error) {
+        console.log(error);
+        res.status(500).json({ error: 'Something bad happened! Unable to delete the positive track'})
+    }
+});
+
+router.get('/negative_tracks', authenticate, async (req, res) => {
+    try {
+        const negTracks = await Users.getUserNegTracks(req.decoded.subject);
+
+        res.status(200).json(negTracks);
+
+    } catch(error) {
+        res.status(500).json({ error: 'Something bad happened! Unable to get the list of Negative tracks' });
+    }
+});
+
+router.post('/add/negative_track', authenticate, async (req, res) => {
     let { user_id, track_id } = req.body;
 
     try {
@@ -73,17 +112,32 @@ router.post('/add/negative_track', async (req, res) => {
         res.status(201).json({ message: 'Negative Track added!', posTrack });
     } catch(error) {
         console.log(error)
-        res.status(500).json({ error: 'Something bad happened! Unable to add the postive track' });
+        res.status(500).json({ error: 'Something bad happened! Unable to add the positive track' });
     }
 });
 
-router.get('/user_predicted_tracks', async (req, res) => {
+router.delete('/delete/negative_track', async (req, res) => {
+    try {
+        const delTrack = await Users.delNegativeTrack(req.body.track_id);
+
+        if(delTrack) {
+            res.status(200).json({ delTrack, message: 'Negative Track deleted!' });
+        } else {
+            res.status(400).json({ error: 'That Track does not exists' });
+        }
+    } catch(error) {
+        console.log(error);
+        res.status(500).json({ error: 'Something bad happened! Unable to delete the positive track'})
+    }
+});
+
+router.get('/user_predicted_tracks', authenticate, async (req, res) => {
     try {
         let page_number = req.query.page_number || 0;
 
         const data = await Users.getUserPredictedTracks(req.query.user_id, page_number);
 
-        const findTracks = await Users.mapTracks(data);
+        const findTracks = await Helpers.mapTracks(data);
         
         const result = { tracks: findTracks};
 
